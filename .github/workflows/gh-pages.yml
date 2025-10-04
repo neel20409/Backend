@@ -1,0 +1,32 @@
+name: Publish docs to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit docs to gh-pages
+        run: |
+          git fetch --all
+          git checkout --orphan gh-pages || git checkout gh-pages
+          git rm -rf . || true
+          cp -R docs/* .
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No changes to deploy"
+          else
+            git commit -m "chore(pages): publish from docs/ [skip ci]"
+            git push -u origin HEAD:gh-pages --force
+          fi

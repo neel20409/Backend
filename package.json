@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "predeploy": "echo preparing deploy",
+    "deploy": "echo GitHub Pages deployment uses docs/ folder (push to gh-pages via Actions)"
   },
+  "homepage": "https://neel20409.github.io/Backend",
   "keywords": [
     "node",
     "backend"
