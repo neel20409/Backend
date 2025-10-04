@@ -5,12 +5,19 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true # needed to push with GITHUB_TOKEN
+          fetch-depth: 0
 
       - name: Setup Node (for optional build steps)
         uses: actions/setup-node@v4
@@ -24,3 +31,7 @@ jobs:
           publish_dir: ./docs
           publish_branch: gh-pages
           # optional: keep_files: true
+      - name: Debug git remote
+        run: |
+          git remote -v
+          git branch -a
